@@ -232,6 +232,7 @@ class RegisterView extends GetView<RegisterController> {
                         )),
                   ],
                   // 00DA16
+                  //
                 ),
               ],
             ),
