@@ -1,99 +1,110 @@
-/// status : 200
-/// message : "success"
-/// data : [{"id":1,"kategori_id":1,"judul":"Naufal Suka Ngoding","penulis":"Naufal","penerbit":"Naufal Company","tahun_terbit":2024,"created_at":"2024-03-07T00:34:47.000000Z","updated_at":"2024-03-07T00:34:47.000000Z","kategori":{"id":1,"nama":"umum"}}]
-
 class ResponseBuku {
   ResponseBuku({
-    required int status,
-    required String message,
-    required List<Data> data,
-  })   : _status = status,
-        _message = message,
-        _data = data;
+    required this.status,
+    required this.message,
+    required this.data,
+  });
 
-  ResponseBuku.fromJson(Map<String, dynamic> json)
-      : _status = json['status'] ?? 0,
-        _message = json['message'] ?? '',
-        _data = (json['data'] as List<dynamic>?)
-            ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
-            .toList() ?? [];
+  factory ResponseBuku.fromJson(dynamic json) {
+    return ResponseBuku(
+      status: json['status'],
+      message: json['message'],
+      data: json['data'] != null ? List<DataBuku>.from(json['data'].map((x) => DataBuku.fromJson(x))) : [],
+    );
+  }
 
-  final int _status;
-  final String _message;
-  final List<Data> _data;
+  final int status;
+  final String message;
+  final List<DataBuku> data;
 
-  int get status => _status;
-  String get message => _message;
-  List<Data> get data => _data;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> map = {
+      'status': status,
+      'message': message,
+      'data': data.map((e) => e.toJson()).toList(),
+    };
+    return map;
+  }
 }
 
-class Data {
-  Data({
-    required int id,
-    required int kategoriId,
-    required String judul,
-    required String penulis,
-    required String penerbit,
-    required int tahunTerbit,
-    required String createdAt,
-    required String updatedAt,
-    required Kategori kategori,
-  })   : _id = id,
-        _kategoriId = kategoriId,
-        _judul = judul,
-        _penulis = penulis,
-        _penerbit = penerbit,
-        _tahunTerbit = tahunTerbit,
-        _createdAt = createdAt,
-        _updatedAt = updatedAt,
-        _kategori = kategori;
+class DataBuku {
+  DataBuku({
+    required this.id,
+    required this.kategoriId,
+    required this.judul,
+    required this.penulis,
+    required this.penerbit,
+    required this.tahunTerbit,
+    required this.deskripsi,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.kategori,
+  });
 
-  Data.fromJson(Map<String, dynamic> json)
-      : _id = json['id'] ?? 0,
-        _kategoriId = json['kategori_id'] ?? 0,
-        _judul = json['judul'] ?? '',
-        _penulis = json['penulis'] ?? '',
-        _penerbit = json['penerbit'] ?? '',
-        _tahunTerbit = json['tahun_terbit'] ?? 0,
-        _createdAt = json['created_at'] ?? '',
-        _updatedAt = json['updated_at'] ?? '',
-        _kategori = Kategori.fromJson(json['kategori'] ?? {});
+  factory DataBuku.fromJson(dynamic json) {
+    return DataBuku(
+      id: json['id'],
+      kategoriId: json['kategori_id'],
+      judul: json['judul'],
+      penulis: json['penulis'],
+      penerbit: json['penerbit'],
+      tahunTerbit: json['tahun_terbit'],
+      deskripsi: json['deskripsi'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+      kategori: json['kategori'] != null ? Kategori.fromJson(json['kategori']) : Kategori(id: 0, nama: ''),
+    );
+  }
 
-  final int _id;
-  final int _kategoriId;
-  final String _judul;
-  final String _penulis;
-  final String _penerbit;
-  final int _tahunTerbit;
-  final String _createdAt;
-  final String _updatedAt;
-  final Kategori _kategori;
+  final int id;
+  final int kategoriId;
+  final String judul;
+  final String penulis;
+  final String penerbit;
+  final int tahunTerbit;
+  final String deskripsi;
+  final String createdAt;
+  final String updatedAt;
+  final Kategori kategori;
 
-  int get id => _id;
-  int get kategoriId => _kategoriId;
-  String get judul => _judul;
-  String get penulis => _penulis;
-  String get penerbit => _penerbit;
-  int get tahunTerbit => _tahunTerbit;
-  String get createdAt => _createdAt;
-  String get updatedAt => _updatedAt;
-  Kategori get kategori => _kategori;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> map = {
+      'id': id,
+      'kategori_id': kategoriId,
+      'judul': judul,
+      'penulis': penulis,
+      'penerbit': penerbit,
+      'tahun_terbit': tahunTerbit,
+      'deskripsi': deskripsi,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'kategori': kategori.toJson(),
+    };
+    return map;
+  }
 }
 
 class Kategori {
   Kategori({
-    required int id,
-    required String nama,
-  })   : _id = id,
-        _nama = nama;
+    required this.id,
+    required this.nama,
+  });
 
-  Kategori.fromJson(Map<String, dynamic> json)
-      : _id = json['id'] ?? 0,
-        _nama = json['nama'] ?? '';
+  factory Kategori.fromJson(dynamic json) {
+    return Kategori(
+      id: json['id'],
+      nama: json['nama'],
+    );
+  }
 
-  final int _id;
-  final String _nama;
+  final int id;
+  final String nama;
 
-  int get id => _id;
-  String get nama => _nama;
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> map = {
+      'id': id,
+      'nama': nama,
+    };
+    return map;
+  }
 }
