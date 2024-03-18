@@ -117,7 +117,7 @@ class HomeView extends GetView<HomeController> {
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
               child: controller.obx(
-                (state) => ListView.separated(
+                    (state) => ListView.separated(
                   itemCount: state!.length,
                   itemBuilder: (context, index) {
                     DataBuku dataBuku = state[index];
@@ -131,7 +131,7 @@ class HomeView extends GetView<HomeController> {
                             'penulis': dataBuku.penulis ?? '-',
                             'penerbit': dataBuku.penerbit ?? '-',
                             'tahun_terbit':
-                                dataBuku.tahunTerbit.toString() ?? '-',
+                            dataBuku.tahunTerbit.toString() ?? '-',
                             'deskripsi': dataBuku.deskripsi ?? '-',
                           },
                         ),
