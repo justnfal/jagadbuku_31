@@ -12,7 +12,6 @@ class HomeController extends GetxController with StateMixin<List<DataBuku>> {
 
 
 
-
   @override
   void onInit() {
     super.onInit();
