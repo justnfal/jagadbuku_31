@@ -11,7 +11,6 @@ import '../../../data/provider/api_provider.dart';
 class HomeController extends GetxController with StateMixin<List<DataBuku>> {
 
 
-
   @override
   void onInit() {
     super.onInit();
