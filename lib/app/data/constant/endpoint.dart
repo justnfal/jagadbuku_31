@@ -4,5 +4,6 @@ class Endpoint{
 
   static const String register = "${baseUrlApi}register";
   static const String login = "${baseUrlApi}login";
-  static const String buku = "${baseUrlApi}buku";
+  static const String buku = "${baseUrlApi}book";
+  static const String user = "${baseUrlApi}user";
 }

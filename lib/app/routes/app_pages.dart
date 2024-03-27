@@ -43,7 +43,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_BUKU,
-      page: () => const DetailBukuView(),
+      page: () =>  DetailBukuView(),
       binding: DetailBukuBinding(),
     ),
   ];

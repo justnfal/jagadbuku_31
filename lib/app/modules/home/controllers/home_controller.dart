@@ -1,6 +1,5 @@
 import 'dart:math';
 
-
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jagadbuku_31/app/data/model/response_buku.dart';
@@ -9,17 +8,19 @@ import '../../../data/constant/endpoint.dart';
 import '../../../data/provider/api_provider.dart';
 
 class HomeController extends GetxController with StateMixin<List<DataBuku>> {
-//
+//TODO: Implement HomeController
 
   @override
   void onInit() {
     super.onInit();
+    getData();
+
   }
 
   @override
   void onReady() {
     super.onReady();
-    getData();
+    // getData();
   }
 
   @override

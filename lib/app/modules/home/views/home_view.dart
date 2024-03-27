@@ -13,33 +13,7 @@ class HomeView extends GetView<HomeController> {
 
   // creating static data in lists
 
-  List catNames = [
-    "Category",
-    'Classes',
-    'Free Course',
-    'BookStore',
-    'Live Course',
-    'LeaderBoard',
-  ];
-
-  List<Color> catColors = [
-    Color(0XFFFFCF2F),
-    Color(0XFF6FE08D),
-    Color(0XFF61BDFD),
-    Color(0XFFFC7F7F),
-    Color(0XFFCB84FB),
-    Color(0XFF78E667),
-  ];
-
-  List<Icon> catIcons = [
-    Icon(Icons.category, color: Colors.white, size: 30),
-    Icon(Icons.video_library, color: Colors.white, size: 30),
-    Icon(Icons.assignment, color: Colors.white, size: 30),
-    Icon(Icons.store, color: Colors.white, size: 30),
-    Icon(Icons.play_circle_fill, color: Colors.white, size: 30),
-    Icon(Icons.emoji_events, color: Colors.white, size: 30),
-  ];
-  List imgList = ['Flutter'];
+  final _bottomNavIndex = 0.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -113,6 +87,7 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
           ),
+          SizedBox(height: 12),
           Expanded(
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
@@ -121,37 +96,105 @@ class HomeView extends GetView<HomeController> {
                   itemCount: state!.length,
                   itemBuilder: (context, index) {
                     DataBuku dataBuku = state[index];
-                    return Container(
-                      child: InkWell(
-                        onTap: () => Get.toNamed(
-                          Routes.DETAIL_BUKU,
-                          parameters: {
-                            'id': (dataBuku.id ?? 0).toString(),
-                            'judul': dataBuku.judul ?? '-',
-                            'penulis': dataBuku.penulis ?? '-',
-                            'penerbit': dataBuku.penerbit ?? '-',
-                            'tahun_terbit':
-                            dataBuku.tahunTerbit.toString() ?? '-',
-                            'deskripsi': dataBuku.deskripsi ?? '-',
-                          },
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0), // Tambahkan jarak vertikal
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(8),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(2, 2),
+                              blurRadius: 5,
+                            ),
+                          ],
                         ),
-                        child: ListTile(
-                          title: Text("${dataBuku.judul}"),
-                          subtitle: Text(
-                            "Penulis ${dataBuku.penulis}\n${dataBuku.penerbit} - ${dataBuku.tahunTerbit}",
+                        child: InkWell(
+                          onTap: () => Get.toNamed(
+                            Routes.DETAIL_BUKU,
+                            parameters: {
+                              'id': (dataBuku.id ?? 0).toString(),
+                              'judul': dataBuku.judul ?? '-',
+                              'penulis': dataBuku.penulis ?? '-',
+                              'penerbit': dataBuku.penerbit ?? '-',
+                              'tahun_terbit': dataBuku.tahunTerbit.toString() ?? '-',
+                              'deskripsi': dataBuku.deskripsi ?? '-',
+                            },
                           ),
-                          trailing: Icon(Icons.arrow_forward),
+                          child: ListTile(
+                            title: Text("${dataBuku.judul}"),
+                            subtitle: Text(
+                              "Penulis ${dataBuku.penulis}\n${dataBuku.penerbit} - ${dataBuku.tahunTerbit}",
+                            ),
+                            trailing: Icon(Icons.arrow_forward),
+                          ),
                         ),
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => Divider(),
+                  separatorBuilder: (context, index) => SizedBox.shrink(),
                 ),
                 onLoading: Center(child: CupertinoActivityIndicator()),
               ),
             ),
           ),
+
+          SizedBox(height: 12),
+
+
+
         ],
+      ),
+      bottomNavigationBar: Obx(
+        () => Container(
+          child: BottomNavigationBar(
+            backgroundColor: Colors.blue,
+            currentIndex: _bottomNavIndex.value,
+            onTap: (value) {
+              _bottomNavIndex.value = value;
+              switch (value) {
+                case 0:
+                  Get.toNamed(Routes.HOME);
+                  break;
+                case 1:
+                  Get.toNamed(Routes.DETAIL_BUKU);
+                  break;
+                case 2:
+                  Get.toNamed(Routes.DETAIL_BUKU);
+                  break;
+                default:
+                  break;
+              }
+            },
+            selectedItemColor: Colors.black,
+            // Mengubah warna label yang terpilih menjadi putih
+            unselectedItemColor: Colors.black,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: Colors.black,
+                ),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.book,
+                  color: Colors.black,
+                ),
+                label: 'Collection',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person,
+                  color: Colors.black,
+                ),
+                label: 'Profile',
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
