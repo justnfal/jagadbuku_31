@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 
+import '../../../data/model/response_buku.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/detail_buku_controller.dart';
 
@@ -16,9 +17,16 @@ class DetailBukuView extends GetView<DetailBukuController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Color(0xFFD0E2E5),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Color(0xFFD0E2E5),
+        title: Text(
+          'Detail Buku',
+          style: TextStyle(
+            fontWeight: FontWeight.bold, // Mengatur teks menjadi tebal
+          ),
+        ),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -46,96 +54,99 @@ class DetailBukuView extends GetView<DetailBukuController> {
                         Expanded(
                           flex: 2,
                           child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.width - (40),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey,
-                                    offset:Offset(3, 3),
-                                    blurRadius: 5
-                                )
-                              ],
                               image: DecorationImage(
-                                image: AssetImage(
-                                    'lib/app/assets/logo/logo4.2.png'
-                                ),
+                                image: AssetImage('lib/app/assets/logo/logo4.2.png'),
+                                // Atur agar gambar mengisi container
                               ),
                             ),
-                            // child: Text(
-                            //   "Truffle Temptation Extravaganza",
-                            //   style: TextStyle(
-                            //     fontSize: 20,
-                            //     fontWeight: FontWeight.bold,
-                            //   ),
-                            // ),
                           ),
                         ),
                         Expanded(
                           flex: 1,
-                          child: Column(
-                            children: [
-                              Text(
-                                "\$12.00",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              Text(
-                                "\$15.00",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey,
-                                  decoration: TextDecoration.lineThrough,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(2, 2),
-                                  blurRadius: 5,
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    CupertinoIcons.airplane,
-                                    color: Colors.redAccent,
-                                  ),
-                                  Text(
-                                    '467 Clories',
-                                    style: TextStyle(
-                                      fontSize: 10,
+                          child: SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.5,
+                            child: controller.obx(
+                                  (state) => ListView.separated(
+                                itemCount: state!.length,
+                                itemBuilder: (context, index) {
+                                  DataBuku dataBuku = state[index];
+                                  return Padding(
+                                    padding: EdgeInsets.symmetric(vertical: 8.0), // Tambahkan jarak vertikal
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.grey.shade200,
+                                        borderRadius: BorderRadius.circular(8),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.grey,
+                                            offset: Offset(2, 2),
+                                            blurRadius: 5,
+                                          ),
+                                        ],
+                                      ),
+                                      child: InkWell(
+                                        onTap: () => Get.toNamed(
+                                          Routes.DETAIL_BUKU,
+                                          parameters: {
+                                            'id': (dataBuku.id ?? 0).toString(),
+                                            'judul': dataBuku.judul ?? '-',
+                                            'penulis': dataBuku.penulis ?? '-',
+                                            'penerbit': dataBuku.penerbit ?? '-',
+                                            'tahun_terbit': dataBuku.tahunTerbit.toString() ?? '-',
+                                            'deskripsi': dataBuku.deskripsi ?? '-',
+                                          },
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  );
+                                },
+                                separatorBuilder: (context, index) => SizedBox.shrink(),
                               ),
+                              onLoading: Center(child: CupertinoActivityIndicator()),
                             ),
                           ),
                         ),
                       ],
                     ),
+                    // SizedBox(height: 12),
+                    // Row(
+                    //   children: [
+                    //     Expanded(
+                    //       child: Container(
+                    //         decoration: BoxDecoration(
+                    //           color: Colors.grey.shade200,
+                    //           borderRadius: BorderRadius.circular(20),
+                    //           boxShadow: const [
+                    //             BoxShadow(
+                    //               color: Colors.grey,
+                    //               offset: Offset(2, 2),
+                    //               blurRadius: 5,
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         child: Padding(
+                    //           padding: const EdgeInsets.all(8.0),
+                    //           child: Column(
+                    //             children: [
+                    //               Icon(
+                    //                 CupertinoIcons.airplane,
+                    //                 color: Colors.redAccent,
+                    //               ),
+                    //               Text(
+                    //                 '467 Clories',
+                    //                 style: TextStyle(
+                    //                   fontSize: 10,
+                    //                 ),
+                    //               ),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+
                   ],
                 ),
               ),
