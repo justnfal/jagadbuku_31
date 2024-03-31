@@ -6,14 +6,18 @@ import 'package:jagadbuku_31/app/data/model/response_buku.dart';
 
 import '../../../data/constant/endpoint.dart';
 import '../../../data/provider/api_provider.dart';
+import '../../../routes/app_pages.dart';
 
 class DetailBukuController extends GetxController with StateMixin<List<DataBuku>> {
   //TODO: Implement DetailBukuController
 
   final count = 0.obs;
+
+
   @override
   void onInit() {
     super.onInit();
+    getData();
   }
 
   @override
@@ -40,8 +44,6 @@ class DetailBukuController extends GetxController with StateMixin<List<DataBuku>
       } else {
         change(null, status: RxStatus.error("Gagal Mngambil data"));
       }
-
-
     } on DioException catch (e) {
       if (e.response != null) {
         if (e.response?.data != null) {
@@ -53,5 +55,9 @@ class DetailBukuController extends GetxController with StateMixin<List<DataBuku>
     } catch (e) {
       change(null, status: RxStatus.error(e.toString()));
     }
+  }
+
+  goToPinjamBuku() {
+    Get.toNamed(Routes.PINJAM_BUKU);
   }
 }

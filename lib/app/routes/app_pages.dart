@@ -8,6 +8,8 @@ import '../modules/home/views/home_view.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
+import '../modules/pinjam_buku/bindings/pinjam_buku_binding.dart';
+import '../modules/pinjam_buku/views/pinjam_buku_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
 
@@ -43,8 +45,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.DETAIL_BUKU,
-      page: () =>  DetailBukuView(),
+      page: () => DetailBukuView(),
       binding: DetailBukuBinding(),
+    ),
+    GetPage(
+      name: _Paths.PINJAM_BUKU,
+      page: () => const PinjamBukuView(),
+      binding: PinjamBukuBinding(),
     ),
   ];
 }

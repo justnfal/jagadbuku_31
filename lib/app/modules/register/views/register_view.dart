@@ -20,7 +20,7 @@ class RegisterView extends GetView<RegisterController> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFD0E2E5),
-      body : SafeArea(
+      body : SingleChildScrollView(
           child: Form(
             key: controller.formKey,
             child: Column(

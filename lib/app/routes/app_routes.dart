@@ -7,6 +7,7 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const REGISTER = _Paths.REGISTER;
   static const DETAIL_BUKU = _Paths.DETAIL_BUKU;
+  static const PINJAM_BUKU = _Paths.PINJAM_BUKU;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const REGISTER = '/register';
   static const DETAIL_BUKU = '/detail-buku';
+  static const PINJAM_BUKU = '/pinjam-buku';
 }
