@@ -1,44 +1,52 @@
-/// status : 200
+/// status : 201
 /// message : "success"
-/// data : [{"id":10,"kategori_id":2,"judul":"Akasha : Neon Genesis Evangelion - Collector's Edition 02","penulis":"Yoshiyuki Sadamoto","penerbit":"m&c!","image":"C:\\xampp\\tmp\\phpB5FB.tmp","tahun_terbit":2023,"deskripsi":"Shinji penasaran dengan pilot Unit-00 yang misterius, Rei, termasuk hubungan dengan ayahnya. Di tengah percobaan aktivasi ulang Unit-00, datang Angel ke-5 yang memiliki sistem penyerangan dan pertahanan sempurna!\n\nDi antara jenis buku lainnya, komik memang disukai oleh semua kalangan mulai dari anak kecil hingga orang dewasa. Alasan komik lebih disukai oleh banyak orang karena disajikan dengan penuh dengan gambar dan cerita yang mengasyikan sehingga mampu menghilangkan rasa bosan di kala waktu senggang.","created_at":"2024-03-30T11:44:11.000000Z","updated_at":"2024-03-30T11:44:11.000000Z","kategori":{"id":2,"nama":"hiburan"}}]
+/// data : {"kategori_id":"2","judul":"Akasha : Neon Genesis Evangelion - Collector's Edition 02","penulis":"Yoshiyuki Sadamoto","penerbit":"m&c!","image":"http://192.168.6.31:8000/images/Evangelion_collection2.PNG","tahun_terbit":"2023","deskripsi":"Shinji penasaran dengan pilot Unit-00 yang misterius, Rei, termasuk hubungan dengan ayahnya. Di tengah percobaan aktivasi ulang Unit-00, datang Angel ke-5 yang memiliki sistem penyerangan dan pertahanan sempurna!\n\nDi antara jenis buku lainnya, komik memang disukai oleh semua kalangan mulai dari anak kecil hingga orang dewasa. Alasan komik lebih disukai oleh banyak orang karena disajikan dengan penuh dengan gambar dan cerita yang mengasyikan sehingga mampu menghilangkan rasa bosan di kala waktu senggang.","updated_at":"2024-04-01T02:17:27.000000Z","created_at":"2024-04-01T02:17:27.000000Z","id":10}
 
 class ResponseBuku {
-  ResponseBuku({
-    this.status,
-    this.message,
-    this.data,
-  });
-
   int? status;
   String? message;
-  List<DataBuku>? data;
+  List<DataBuku>? data; // Ubah tipe data menjadi List<DataBuku>?
+
+  ResponseBuku({this.status, this.message, this.data});
 
   ResponseBuku.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
+
+    // Penanganan data untuk data tunggal atau dalam bentuk list
     if (json['data'] != null) {
-      data = <DataBuku>[];
-      json['data'].forEach((v) {
-        data?.add(DataBuku.fromJson(v));
-      });
+      if (json['data'] is List) {
+        data = List<DataBuku>.from(json['data'].map((x) => DataBuku.fromJson(x)));
+      } else {
+        data = [DataBuku.fromJson(json['data'])];
+      }
     }
   }
 
-  ResponseBuku copyWith({
-    int? status,
-    String? message,
-    List<DataBuku>? data,
-  }) =>
-      ResponseBuku(
-        status: status ?? this.status,
-        message: message ?? this.message,
-        data: data ?? this.data,
-      );
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
+    if (this.data != null) {
+      data['data'] = this.data!.map((e) => e.toJson()).toList();
+    }
+    return data;
+  }
 }
 
 class DataBuku {
+  String? kategoriId; // Ubah tipe data menjadi String?
+  String? judul;
+  String? penulis;
+  String? penerbit;
+  String? image;
+  String? tahunTerbit; // Ubah tipe data menjadi String?
+  String? deskripsi;
+  String? updatedAt;
+  String? createdAt;
+  int? id;
+
   DataBuku({
-    this.id,
     this.kategoriId,
     this.judul,
     this.penulis,
@@ -46,85 +54,36 @@ class DataBuku {
     this.image,
     this.tahunTerbit,
     this.deskripsi,
-    this.createdAt,
     this.updatedAt,
-    this.kategori,
+    this.createdAt,
+    this.id,
   });
 
-  int? id;
-  int? kategoriId;
-  String? judul;
-  String? penulis;
-  String? penerbit;
-  String? image;
-  int? tahunTerbit;
-  String? deskripsi;
-  String? createdAt;
-  String? updatedAt;
-  Kategori? kategori;
-
   DataBuku.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    kategoriId = json['kategori_id'];
+    kategoriId = json['kategori_id'].toString(); // Konversi ke String
     judul = json['judul'];
     penulis = json['penulis'];
     penerbit = json['penerbit'];
     image = json['image'];
-    tahunTerbit = json['tahun_terbit'];
+    tahunTerbit = json['tahun_terbit'].toString(); // Konversi ke String
     deskripsi = json['deskripsi'];
-    createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    kategori = json['kategori'] != null ? Kategori.fromJson(json['kategori']) : null;
-  }
-
-  DataBuku copyWith({
-    int? id,
-    int? kategoriId,
-    String? judul,
-    String? penulis,
-    String? penerbit,
-    String? image,
-    int? tahunTerbit,
-    String? deskripsi,
-    String? createdAt,
-    String? updatedAt,
-    Kategori? kategori,
-  }) =>
-      DataBuku(
-        id: id ?? this.id,
-        kategoriId: kategoriId ?? this.kategoriId,
-        judul: judul ?? this.judul,
-        penulis: penulis ?? this.penulis,
-        penerbit: penerbit ?? this.penerbit,
-        image: image ?? this.image,
-        tahunTerbit: tahunTerbit ?? this.tahunTerbit,
-        deskripsi: deskripsi ?? this.deskripsi,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        kategori: kategori ?? this.kategori,
-      );
-}
-
-class Kategori {
-  Kategori({
-    this.id,
-    this.nama,
-  });
-
-  int? id;
-  String? nama;
-
-  Kategori.fromJson(Map<String, dynamic> json) {
+    createdAt = json['created_at'];
     id = json['id'];
-    nama = json['nama'];
   }
 
-  Kategori copyWith({
-    int? id,
-    String? nama,
-  }) =>
-      Kategori(
-        id: id ?? this.id,
-        nama: nama ?? this.nama,
-      );
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data['kategori_id'] = kategoriId;
+    data['judul'] = judul;
+    data['penulis'] = penulis;
+    data['penerbit'] = penerbit;
+    data['image'] = image;
+    data['tahun_terbit'] = tahunTerbit;
+    data['deskripsi'] = deskripsi;
+    data['updated_at'] = updatedAt;
+    data['created_at'] = createdAt;
+    data['id'] = id;
+    return data;
+  }
 }

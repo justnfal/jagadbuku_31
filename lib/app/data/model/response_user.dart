@@ -4,7 +4,7 @@
 
 class ResponseUser {
   ResponseUser({
-    num? status,
+    int? status,
     String? message,
     DataUser? data,
   }) {
@@ -19,16 +19,16 @@ class ResponseUser {
     _data = json['data'] != null ? DataUser.fromJson(json['data']) : null;
   }
 
-  num? _status;
+  int? _status;
   String? _message;
   DataUser? _data;
 
-  num? get status => _status;
+  int? get status => _status;
   String? get message => _message;
   DataUser? get data => _data;
 
   ResponseUser copyWith({
-    num? status,
+    int? status,
     String? message,
     DataUser? data,
   }) =>
@@ -51,7 +51,7 @@ class ResponseUser {
 
 class DataUser {
   DataUser({
-    num? id,
+    int? id,
     String? username,
     String? nama,
     String? telp,
@@ -81,7 +81,7 @@ class DataUser {
     _updatedAt = json['updated_at'];
   }
 
-  num? _id;
+  int? _id;
   String? _username;
   String? _nama;
   String? _telp;
@@ -90,7 +90,7 @@ class DataUser {
   String? _createdAt;
   String? _updatedAt;
 
-  num? get id => _id;
+  int? get id => _id;
   String? get username => _username;
   String? get nama => _nama;
   String? get telp => _telp;

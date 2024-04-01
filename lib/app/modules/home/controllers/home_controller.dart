@@ -34,16 +34,14 @@ class HomeController extends GetxController with StateMixin<List<DataBuku>> {
       final response = await ApiProvider.instance().get(Endpoint.buku);
       if (response.statusCode == 200) {
         final ResponseBuku responseBuku = ResponseBuku.fromJson(response.data);
-        if (responseBuku.data!.isEmpty) {
+        if (responseBuku.data == null) {
           change(null, status: RxStatus.empty());
         } else {
-          change(responseBuku.data, status: RxStatus.success());
+          change(responseBuku.data as List<DataBuku>?, status: RxStatus.success());
         }
       } else {
         change(null, status: RxStatus.error("Gagal Mngambil data"));
       }
-
-
     } on DioException catch (e) {
       if (e.response != null) {
         if (e.response?.data != null) {
