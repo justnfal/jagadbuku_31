@@ -61,3 +61,5 @@ class DetailBukuController extends GetxController with StateMixin<List<DataBuku>
     Get.toNamed(Routes.PINJAM_BUKU);
   }
 }
+
+//

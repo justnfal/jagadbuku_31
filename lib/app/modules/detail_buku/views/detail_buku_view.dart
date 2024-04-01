@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jagadbuku_31/app/data/model/response_buku.dart';
 import 'package:jagadbuku_31/app/routes/app_pages.dart';
+import 'package:cached_network_image/cached_network_image.dart'; // Import package untuk CachedNetworkImage
+
 import '../controllers/detail_buku_controller.dart';
 
 class DetailBukuView extends GetView<DetailBukuController> {
@@ -62,14 +64,17 @@ class DetailBukuView extends GetView<DetailBukuController> {
                   child: controller.obx(
                         (state) {
                       if (state == null || state.isEmpty) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
+                        // Tampilkan CircularProgressIndicator saat sedang memuat
+                        return CircularProgressIndicator();
                       }
                       final DataBuku dataBuku = state[0];
-                      // Ubah path file menjadi URL gambar
-                      final imageUrl = 'file:///assets/images/${dataBuku.image}';
-                      return Image.network(imageUrl);
+                      // Gunakan CachedNetworkImage
+                      final imageUrl = dataBuku.image;
+                      return CachedNetworkImage(
+                        imageUrl: imageUrl ?? '',
+                        placeholder: (context, url) => CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      );
                     },
                   ),
                 ),
@@ -185,9 +190,6 @@ class DetailBukuView extends GetView<DetailBukuController> {
       ],
     );
   }
-
-
-
 
   Widget buildBottomNavigationBar() {
     return Obx(
