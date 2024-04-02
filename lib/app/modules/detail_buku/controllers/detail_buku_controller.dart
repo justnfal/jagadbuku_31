@@ -1,4 +1,4 @@
-import 'dart:math';
+// import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
@@ -57,9 +57,10 @@ class DetailBukuController extends GetxController with StateMixin<List<DataBuku>
     }
   }
 
-  goToPinjamBuku() {
-    Get.toNamed(Routes.PINJAM_BUKU);
-  }
+  // goToPinjamBuku() {
+  //   Get.toNamed(Routes.ADD_PEMINJAMAN, parameters: {
+  //   'id' : (dataBuku.id ??0).toString(),'judul':dataBuku.judul ??'-');
+  // }
 }
 
 //

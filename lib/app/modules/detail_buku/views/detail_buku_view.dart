@@ -69,9 +69,8 @@ class DetailBukuView extends GetView<DetailBukuController> {
                       }
                       final DataBuku dataBuku = state[0];
                       // Gunakan CachedNetworkImage
-                      final imageUrl = dataBuku.image;
                       return CachedNetworkImage(
-                        imageUrl: imageUrl ?? '',
+                        imageUrl: dataBuku.image ?? '',
                         placeholder: (context, url) => CircularProgressIndicator(),
                         errorWidget: (context, url, error) => Icon(Icons.error),
                       );
@@ -125,8 +124,18 @@ class DetailBukuView extends GetView<DetailBukuController> {
                           ),
                           SizedBox(height: 16),
                           ElevatedButton(
-                            onPressed: controller.goToPinjamBuku,
-                            child: Text('Pinjam Buku'),
+                            onPressed: () {
+                              Get.toNamed(Routes.ADD_PEMINJAMAN, parameters: {'id' : (dataBuku.id ??0).toString(),'judul': dataBuku.judul!});
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Color(0xFF00DA16), // Background color
+                              foregroundColor: Colors.white, // Text color
+                              minimumSize: Size(121, 36), // Increase the size
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10), // Border radius
+                              ),
+                            ),
+                            child: Text("Pinjam Buku"),
                           ),
                         ],
                       );
