@@ -51,7 +51,7 @@ class AppPages {
 
     GetPage(
       name: _Paths.ADD_PEMINJAMAN,
-      page: () => const AddPeminjamanView(),
+      page: () =>  AddPeminjamanView(),
       binding: AddPeminjamanBinding(),
     ),
   ];

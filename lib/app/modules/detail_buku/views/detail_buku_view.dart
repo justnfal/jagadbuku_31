@@ -69,10 +69,18 @@ class DetailBukuView extends GetView<DetailBukuController> {
                       }
                       final DataBuku dataBuku = state[0];
                       // Gunakan CachedNetworkImage
-                      return CachedNetworkImage(
-                        imageUrl: dataBuku.image ?? '',
-                        placeholder: (context, url) => CircularProgressIndicator(),
-                        errorWidget: (context, url, error) => Icon(Icons.error),
+                      return Container(
+                        width: 150, // Atur lebar gambar sesuai kebutuhan
+                        height: 200, // Atur tinggi gambar sesuai kebutuhan
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: dataBuku.image ?? '',
+                          fit: BoxFit.cover, // Atur ukuran gambar sesuai container
+                          placeholder: (context, url) => CircularProgressIndicator(),
+                          errorWidget: (context, url, error) => Icon(Icons.error),
+                        ),
                       );
                     },
                   ),
@@ -142,10 +150,10 @@ class DetailBukuView extends GetView<DetailBukuController> {
                     },
                   ),
                 ),
-                Expanded(
-                  flex: 1,
-                  child: SizedBox(), // Box yang kosong sebagai pembatas
-                ),
+                // Expanded(
+                //   flex: 1,
+                //   child: SizedBox(), // Box yang kosong sebagai pembatas
+                // ),
               ],
             ),
           ),
