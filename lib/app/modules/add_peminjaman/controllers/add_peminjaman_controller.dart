@@ -8,7 +8,9 @@ import 'package:jagadbuku_31/app/data/provider/api_provider.dart';
 import 'package:jagadbuku_31/app/data/provider/storage_provider.dart';
 import 'package:jagadbuku_31/app/modules/detail_buku/controllers/detail_buku_controller.dart';
 import 'package:jagadbuku_31/app/routes/app_pages.dart';
-class AddPeminjamanController extends GetxController {
+
+import '../../../data/model/response_buku.dart';
+class AddPeminjamanController extends GetxController with StateMixin<List<DataBuku>>{
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController tglpinjamController = TextEditingController();
   final TextEditingController tglkembaliController = TextEditingController();
