@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jagadbuku_31/app/data/model/response_buku.dart';
 import 'package:jagadbuku_31/app/routes/app_pages.dart';
-import 'package:cached_network_image/cached_network_image.dart'; // Import package untuk CachedNetworkImage
+import 'package:cached_network_image/cached_network_image.dart';
 
 import '../controllers/detail_buku_controller.dart';
 
@@ -11,6 +10,18 @@ class DetailBukuView extends GetView<DetailBukuController> {
 
   @override
   Widget build(BuildContext context) {
+    // Ambil parameter yang dikirim dari HomeView
+    final Map<String, dynamic>? args = Get.arguments as Map<String, dynamic>?;
+
+    if (args == null) {
+      // Handle jika args adalah null
+      return Scaffold(
+        body: Center(
+          child: Text('Data buku tidak ditemukan'),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: Color(0xFFD0E2E5),
       appBar: AppBar(
@@ -25,21 +36,29 @@ class DetailBukuView extends GetView<DetailBukuController> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: buildContent(),
+        child: buildContent(args), // Mengirim parameter ke buildContent
       ),
       bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
 
-  Widget buildContent() {
+  Widget buildContent(Map<String, dynamic> args) {
     return ListView(
       children: [
-        buildBookInfo(),
+        buildBookInfo(args), // Menggunakan parameter untuk menampilkan detail buku
       ],
     );
   }
 
-  Widget buildBookInfo() {
+  Widget buildBookInfo(Map<String, dynamic> args) {
+    final id = args['id'];
+    final judul = args['judul'];
+    final penulis = args['penulis'];
+    final penerbit = args['penerbit'];
+    final tahunTerbit = args['tahun_terbit'];
+    final deskripsi = args['deskripsi'];
+
+    // Tampilkan detail buku menggunakan data dari parameter
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -61,104 +80,80 @@ class DetailBukuView extends GetView<DetailBukuController> {
               children: [
                 Expanded(
                   flex: 2,
-                  child: controller.obx(
-                        (state) {
-                      if (state == null || state.isEmpty) {
-                        // Tampilkan CircularProgressIndicator saat sedang memuat
-                        return CircularProgressIndicator();
-                      }
-                      final DataBuku dataBuku = state[0];
-                      // Gunakan CachedNetworkImage
-                      return Container(
-                        width: 150, // Atur lebar gambar sesuai kebutuhan
-                        height: 200, // Atur tinggi gambar sesuai kebutuhan
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: dataBuku.image ?? '',
-                          fit: BoxFit.cover, // Atur ukuran gambar sesuai container
-                          placeholder: (context, url) => CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
-                        ),
-                      );
-                    },
+                  child: Container(
+                    width: 150,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: CachedNetworkImage(
+                      imageUrl: '', // Isi dengan URL gambar buku
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
+                    ),
                   ),
                 ),
-                SizedBox(width: 16), // Jarak antara gambar dan teks
+                SizedBox(width: 16),
                 Expanded(
                   flex: 5,
-                  child: controller.obx(
-                        (state) {
-                      if (state == null || state.isEmpty) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      final DataBuku dataBuku = state[0];
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Judul: ${dataBuku.judul!}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Judul: $judul',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 8),
+                      Text(
+                        'Penulis: $penulis',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Penerbit: $penerbit',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        'Tahun Terbit: $tahunTerbit',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(Routes.ADD_PEMINJAMAN, parameters: {'id': id, 'judul': judul});
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF00DA16),
+                          foregroundColor: Colors.white,
+                          minimumSize: Size(121, 36),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Penulis: ${dataBuku.penulis!}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Penerbit: ${dataBuku.penerbit!}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Tahun Terbit: ${dataBuku.tahunTerbit}',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () {
-                              Get.toNamed(Routes.ADD_PEMINJAMAN, parameters: {'id' : (dataBuku.id ??0).toString(),'judul': dataBuku.judul!});
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF00DA16), // Background color
-                              foregroundColor: Colors.white, // Text color
-                              minimumSize: Size(121, 36), // Increase the size
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10), // Border radius
-                              ),
-                            ),
-                            child: Text("Pinjam Buku"),
-                          ),
-                        ],
-                      );
-                    },
+                        ),
+                        child: Text("Pinjam Buku"),
+                      ),
+                    ],
                   ),
                 ),
-                // Expanded(
-                //   flex: 1,
-                //   child: SizedBox(), // Box yang kosong sebagai pembatas
-                // ),
               ],
             ),
           ),
         ),
-        SizedBox(height: 20), // Jarak antara box-box
+        SizedBox(height: 20),
         Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -184,21 +179,11 @@ class DetailBukuView extends GetView<DetailBukuController> {
                   ),
                 ),
                 SizedBox(height: 8),
-                controller.obx(
-                      (state) {
-                    if (state == null || state.isEmpty) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                    final DataBuku dataBuku = state[0];
-                    return Text(
-                      dataBuku.deskripsi!,
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    );
-                  },
+                Text(
+                  deskripsi,
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ],
             ),
@@ -231,7 +216,6 @@ class DetailBukuView extends GetView<DetailBukuController> {
             }
           },
           selectedItemColor: Colors.black,
-          // Mengubah warna label yang terpilih menjadi putih
           unselectedItemColor: Colors.black,
           items: [
             BottomNavigationBarItem(

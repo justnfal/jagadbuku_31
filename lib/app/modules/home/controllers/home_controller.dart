@@ -9,6 +9,11 @@ import '../../../data/provider/api_provider.dart';
 
 class HomeController extends GetxController with StateMixin<List<DataBuku>> {
 //TODO: Implement HomeController
+  final searchText = ''.obs;
+
+  void setSearchText(String text) {
+    searchText.value = text;
+  }
 
   @override
   void onInit() {

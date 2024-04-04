@@ -109,8 +109,8 @@ class AddPeminjamanView extends GetView<AddPeminjamanController> {
                                 style: ElevatedButton.styleFrom(
                                   foregroundColor: Colors.white,
                                   backgroundColor: Colors.blue, // Atur warna teks pada tombol
-                                  padding: EdgeInsets.symmetric(vertical: 30, horizontal: 150), // Atur padding tombol
-                                  textStyle: TextStyle(fontSize: 22), // Atur ukuran teks tombol
+                                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 85), // Atur padding tombol
+                                  textStyle: TextStyle(fontSize: 18), // Atur ukuran teks tombol
                                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)), // Atur bentuk tombol
                                 ),
                                 child: Text("Pinjam"), // Teks pada tombol

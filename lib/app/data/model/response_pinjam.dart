@@ -1,13 +1,12 @@
 /// status : 200
 /// message : "success"
-/// data : [{"id":1,"user_id":9,"book_id":17,"tanggal_pinjam":"2024-04-01 00:00:00","tanggal_kembali":"2024-04-01 00:00:00","status":"DIPINJAM","created_at":"2024-04-02T12:48:09.000000Z","updated_at":"2024-04-02T12:48:09.000000Z","book":{"id":17,"kategori_id":2,"judul":"Akasha : Neon Genesis Evangelion - Collector's Edition 02","penulis":"Yoshiyuki Sadamoto","penerbit":"m&c!","image":"http://192.168.42.175:8000/images/Evangelion_collection2.PNG","tahun_terbit":2023,"deskripsi":"Shinji penasaran dengan pilot Unit-00 yang misterius, Rei, termasuk hubungan dengan ayahnya. Di tengah percobaan aktivasi ulang Unit-00, datang Angel ke-5 yang memiliki sistem penyerangan dan pertahanan sempurna!\n\nDi antara jenis buku lainnya, komik memang disukai oleh semua kalangan mulai dari anak kecil hingga orang dewasa. Alasan komik lebih disukai oleh banyak orang karena disajikan dengan penuh dengan gambar dan cerita yang mengasyikan sehingga mampu menghilangkan rasa bosan di kala waktu senggang.","created_at":"2024-04-02T10:25:13.000000Z","updated_at":"2024-04-02T10:25:13.000000Z"}}]
+/// data : [{"id":2,"user_id":9,"book_id":18,"tanggal_pinjam":"2024-04-01 00:00:00","tanggal_kembali":"2024-04-01 00:00:00","status":"DIPINJAM","created_at":"2024-04-03T07:01:02.000000Z","updated_at":"2024-04-03T07:01:02.000000Z","book":{"id":18,"kategori_id":2,"judul":"Akasha : Neon Genesis Evangelion - Collector's Edition 02","penulis":"Yoshiyuki Sadamoto","penerbit":"m&c!","image":"http://192.168.42.112:8000/images/Evangelion_collection2(1).PNG","tahun_terbit":2023,"deskripsi":"Shinji penasaran dengan pilot Unit-00 yang misterius, Rei, termasuk hubungan dengan ayahnya. Di tengah percobaan aktivasi ulang Unit-00, datang Angel ke-5 yang memiliki sistem penyerangan dan pertahanan sempurna!\n\nDi antara jenis buku lainnya, komik memang disukai oleh semua kalangan mulai dari anak kecil hingga orang dewasa. Alasan komik lebih disukai oleh banyak orang karena disajikan dengan penuh dengan gambar dan cerita yang mengasyikan sehingga mampu menghilangkan rasa bosan di kala waktu senggang.","created_at":"2024-04-03T06:42:55.000000Z","updated_at":"2024-04-03T06:42:55.000000Z"}}]
 
 class ResponsePinjam {
   ResponsePinjam({
     int? status,
     String? message,
-    List<DataPeminjaman>? data,
-  }) {
+    List<DataPeminjaman>? data,}){
     _status = status;
     _message = message;
     _data = data;
@@ -16,18 +15,23 @@ class ResponsePinjam {
   ResponsePinjam.fromJson(dynamic json) {
     _status = json['status'];
     _message = json['message'];
-    if (json['data'] != null) {
+    if (json['data']!= null) {
       _data = [];
       json['data'].forEach((v) {
-        _data!.add(DataPeminjaman.fromJson(v));
+        _data?.add(DataPeminjaman.fromJson(v));
       });
     }
   }
-
   int? _status;
   String? _message;
   List<DataPeminjaman>? _data;
-
+  ResponsePinjam copyWith({  int? status,
+    String? message,
+    List<DataPeminjaman>? data,
+  }) => ResponsePinjam(  status: status?? _status,
+    message: message?? _message,
+    data: data?? _data,
+  );
   int? get status => _status;
   String? get message => _message;
   List<DataPeminjaman>? get data => _data;
@@ -36,12 +40,23 @@ class ResponsePinjam {
     final map = <String, dynamic>{};
     map['status'] = _status;
     map['message'] = _message;
-    if (_data != null) {
-      map['data'] = _data!.map((v) => v.toJson()).toList();
+    if (_data!= null) {
+      map['data'] = _data?.map((v) => v.toJson()).toList();
     }
     return map;
   }
+
 }
+
+/// id : 2
+/// user_id : 9
+/// book_id : 18
+/// tanggal_pinjam : "2024-04-01 00:00:00"
+/// tanggal_kembali : "2024-04-01 00:00:00"
+/// status : "DIPINJAM"
+/// created_at : "2024-04-03T07:01:02.000000Z"
+/// updated_at : "2024-04-03T07:01:02.000000Z"
+/// book : {"id":18,"kategori_id":2,"judul":"Akasha : Neon Genesis Evangelion - Collector's Edition 02","penulis":"Yoshiyuki Sadamoto","penerbit":"m&c!","image":"http://192.168.42.112:8000/images/Evangelion_collection2(1).PNG","tahun_terbit":2023,"deskripsi":"Shinji penasaran dengan pilot Unit-00 yang misterius, Rei, termasuk hubungan dengan ayahnya. Di tengah percobaan aktivasi ulang Unit-00, datang Angel ke-5 yang memiliki sistem penyerangan dan pertahanan sempurna!\n\nDi antara jenis buku lainnya, komik memang disukai oleh semua kalangan mulai dari anak kecil hingga orang dewasa. Alasan komik lebih disukai oleh banyak orang karena disajikan dengan penuh dengan gambar dan cerita yang mengasyikan sehingga mampu menghilangkan rasa bosan di kala waktu senggang.","created_at":"2024-04-03T06:42:55.000000Z","updated_at":"2024-04-03T06:42:55.000000Z"}
 
 class DataPeminjaman {
   DataPeminjaman({
@@ -53,8 +68,7 @@ class DataPeminjaman {
     String? status,
     String? createdAt,
     String? updatedAt,
-    Book? book,
-  }) {
+    Book? book,}){
     _id = id;
     _userId = userId;
     _bookId = bookId;
@@ -77,7 +91,6 @@ class DataPeminjaman {
     _updatedAt = json['updated_at'];
     _book = json['book'] != null ? Book.fromJson(json['book']) : null;
   }
-
   int? _id;
   int? _userId;
   int? _bookId;
@@ -87,7 +100,25 @@ class DataPeminjaman {
   String? _createdAt;
   String? _updatedAt;
   Book? _book;
-
+  DataPeminjaman copyWith({  int? id,
+    int? userId,
+    int? bookId,
+    String? tanggalPinjam,
+    String? tanggalKembali,
+    String? status,
+    String? createdAt,
+    String? updatedAt,
+    Book? book,
+  }) => DataPeminjaman(  id: id ?? _id,
+    userId: userId ?? _userId,
+    bookId: bookId ?? _bookId,
+    tanggalPinjam: tanggalPinjam ?? _tanggalPinjam,
+    tanggalKembali: tanggalKembali ?? _tanggalKembali,
+    status: status ?? _status,
+    createdAt: createdAt ?? _createdAt,
+    updatedAt: updatedAt ?? _updatedAt,
+    book: book ?? _book,
+  );
   int? get id => _id;
   int? get userId => _userId;
   int? get bookId => _bookId;
@@ -109,11 +140,23 @@ class DataPeminjaman {
     map['created_at'] = _createdAt;
     map['updated_at'] = _updatedAt;
     if (_book != null) {
-      map['book'] = _book!.toJson();
+      map['book'] = _book?.toJson();
     }
     return map;
   }
+
 }
+
+/// id : 18
+/// kategori_id : 2
+/// judul : "Akasha : Neon Genesis Evangelion - Collector's Edition 02"
+/// penulis : "Yoshiyuki Sadamoto"
+/// penerbit : "m&c!"
+/// image : "http://192.168.42.112:8000/images/Evangelion_collection2(1).PNG"
+/// tahun_terbit : 2023
+/// deskripsi : "Shinji penasaran dengan pilot Unit-00 yang misterius, Rei, termasuk hubungan dengan ayahnya. Di tengah percobaan aktivasi ulang Unit-00, datang Angel ke-5 yang memiliki sistem penyerangan dan pertahanan sempurna!\n\nDi antara jenis buku lainnya, komik memang disukai oleh semua kalangan mulai dari anak kecil hingga orang dewasa. Alasan komik lebih disukai oleh banyak orang karena disajikan dengan penuh dengan gambar dan cerita yang mengasyikan sehingga mampu menghilangkan rasa bosan di kala waktu senggang."
+/// created_at : "2024-04-03T06:42:55.000000Z"
+/// updated_at : "2024-04-03T06:42:55.000000Z"
 
 class Book {
   Book({
@@ -126,8 +169,7 @@ class Book {
     int? tahunTerbit,
     String? deskripsi,
     String? createdAt,
-    String? updatedAt,
-  }) {
+    String? updatedAt,}){
     _id = id;
     _kategoriId = kategoriId;
     _judul = judul;
@@ -152,7 +194,6 @@ class Book {
     _createdAt = json['created_at'];
     _updatedAt = json['updated_at'];
   }
-
   int? _id;
   int? _kategoriId;
   String? _judul;
@@ -163,7 +204,26 @@ class Book {
   String? _deskripsi;
   String? _createdAt;
   String? _updatedAt;
-
+  Book copyWith({  int? id,
+    int? kategoriId,
+    String? judul,
+    String? penulis,
+    String? penerbit,
+    String? image,
+    int? tahunTerbit,
+    String? deskripsi,
+    String? createdAt,
+    String? updatedAt,
+  }) => Book(  id: id ?? _id,
+    kategoriId: kategoriId ?? _kategoriId,
+    judul: judul ?? _judul,
+    penulis: penulis ?? _penulis,
+    penerbit: penerbit ?? _penerbit,
+    image: image ?? _image,
+    tahunTerbit: tahunTerbit ?? _tahunTerbit,
+    deskripsi: deskripsi ?? _deskripsi,
+    createdAt: createdAt ?? _createdAt,updatedAt: updatedAt ?? _updatedAt,
+  );
   int? get id => _id;
   int? get kategoriId => _kategoriId;
   String? get judul => _judul;
@@ -189,4 +249,5 @@ class Book {
     map['updated_at'] = _updatedAt;
     return map;
   }
+
 }
