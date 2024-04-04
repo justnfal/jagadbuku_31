@@ -36,7 +36,7 @@ class HomeView extends GetView<HomeController> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Icon(
-                      Icons.dashboard,
+                      Icons.person,
                       size: 30,
                       color: Colors.white,
                     ),
@@ -161,7 +161,7 @@ class HomeView extends GetView<HomeController> {
                   Get.toNamed(Routes.DETAIL_BUKU);
                   break;
                 case 2:
-                  Get.toNamed(Routes.DETAIL_BUKU);
+                  Get.toNamed(Routes.PEMINJAMAN);
                   break;
                 default:
                   break;
@@ -187,10 +187,10 @@ class HomeView extends GetView<HomeController> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.person,
+                  Icons.menu_book,
                   color: Colors.black,
                 ),
-                label: 'Profile',
+                label: 'Lihat Peminjaman',
               ),
             ],
           ),

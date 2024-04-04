@@ -12,15 +12,14 @@ import 'package:jagadbuku_31/app/modules/detail_buku/controllers/detail_buku_con
 import 'package:jagadbuku_31/app/routes/app_pages.dart';
 
 import '../../../data/model/response_buku.dart';
-class AddPeminjamanController extends GetxController with StateMixin<List<DataBuku>>{
+
+class AddPeminjamanController extends GetxController with StateMixin<List<DataBuku>> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController tglpinjamController = TextEditingController();
   final TextEditingController tglkembaliController = TextEditingController();
-  final TextEditingController userID = TextEditingController();
-  final TextEditingController bookID = TextEditingController();
+  final userId = int.tryParse(StorageProvider.read(StorageKey.idUser) ?? '');
+  final bookId = int.tryParse(Get.parameters['id'].toString() ?? '');
   final loading = false.obs;
-
-
 
   @override
   void onInit() {
@@ -38,44 +37,41 @@ class AddPeminjamanController extends GetxController with StateMixin<List<DataBu
     super.onClose();
   }
 
-  pinjam() async {
+  void pinjam() async {
     loading(true);
     try {
       FocusScope.of(Get.context!).unfocus();
-      formKey.currentState?.save();
       if (formKey.currentState!.validate()) {
-        final response = await ApiProvider.instance().post(Endpoint.pinjam,
-            data: ({
-              "tanggal_pinjam": tglpinjamController.text.toString(),
-              "tanggal_kembali": tglkembaliController.text.toString(),
-              "user_id": int.parse(StorageProvider.read(StorageKey.idUser)),
-              "book_id": int.parse(Get.parameters['id'].toString()),
-              // "book_id": int.parse(${Get.parameters['']}),
-            }));
+        formKey.currentState!.save();
+        final response = await ApiProvider.instance().post(Endpoint.pinjam, data: {
+          "tanggal_pinjam": tglpinjamController.text.toString(),
+          "tanggal_kembali": tglkembaliController.text.toString(),
+          "user_id": int.parse(StorageProvider.read(StorageKey.idUser)!),
+          "book_id": int.parse(Get.parameters['id'].toString()),
+        });
         if (response.statusCode == 201) {
-          Get.back();
+          Get.offNamed(Routes.HOME); // Mengarahkan langsung ke halaman Home
+          Get.snackbar("Success", "Buku berhasil dipinjam", backgroundColor: Colors.green);
         } else {
           Get.snackbar("Sorry", "Gagal Menambahkan Buku", backgroundColor: Colors.orange);
         }
       }
-      loading(false);
     } on dio.DioException catch (e) {
-      loading(false);
-      if (e.response != null) {
-        if (e.response?.data != null) {
-          Get.snackbar("Sorry", "${e.response?.data['message']}",
-              backgroundColor: Colors.orange);
+      if (userId != null && bookId != null){
+        if (e.response!.data != null) {
+          Get.snackbar("Sorry", "${e.response!.data['message']}", backgroundColor: Colors.orange);
         }
       } else {
         Get.snackbar("Sorry", e.message ?? "", backgroundColor: Colors.red);
       }
     } catch (e) {
-      loading(false);
       Get.snackbar("Error", e.toString(), backgroundColor: Colors.red);
+    } finally {
+      loading(false);
     }
   }
 
-  getData() async {
+  void getData() async {
     change(null, status: RxStatus.loading());
     try {
       final response = await ApiProvider.instance().get(Endpoint.buku);
@@ -91,8 +87,8 @@ class AddPeminjamanController extends GetxController with StateMixin<List<DataBu
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        if (e.response?.data != null) {
-          change(null, status: RxStatus.error("${e.response?.data['message']}"));
+        if (e.response!.data != null) {
+          change(null, status: RxStatus.error("${e.response!.data['message']}"));
         }
       } else {
         change(null, status: RxStatus.error(e.message ?? ""));

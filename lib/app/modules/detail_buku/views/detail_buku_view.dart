@@ -224,13 +224,14 @@ class DetailBukuView extends GetView<DetailBukuController> {
                 Get.toNamed(Routes.DETAIL_BUKU);
                 break;
               case 2:
-                Get.toNamed(Routes.DETAIL_BUKU);
+                Get.toNamed(Routes.PEMINJAMAN);
                 break;
               default:
                 break;
             }
           },
           selectedItemColor: Colors.black,
+          // Mengubah warna label yang terpilih menjadi putih
           unselectedItemColor: Colors.black,
           items: [
             BottomNavigationBarItem(
@@ -249,10 +250,10 @@ class DetailBukuView extends GetView<DetailBukuController> {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.person,
+                Icons.menu_book,
                 color: Colors.black,
               ),
-              label: 'Profile',
+              label: 'Lihat Peminjaman',
             ),
           ],
         ),
