@@ -10,6 +10,7 @@ abstract class Routes {
 
   static const ADD_PEMINJAMAN = _Paths.ADD_PEMINJAMAN;
   static const PEMINJAMAN = _Paths.PEMINJAMAN;
+  static const KOLEKSI = _Paths.KOLEKSI;
 }
 
 abstract class _Paths {
@@ -20,4 +21,5 @@ abstract class _Paths {
   static const DETAIL_BUKU = '/detail-buku';
   static const ADD_PEMINJAMAN = '/add-peminjaman';
   static const PEMINJAMAN = '/peminjaman';
+  static const KOLEKSI = '/koleksi';
 }

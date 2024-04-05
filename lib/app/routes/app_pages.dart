@@ -8,6 +8,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/koleksi/bindings/koleksi_binding.dart';
+import '../modules/koleksi/views/koleksi_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/peminjaman/bindings/peminjaman_binding.dart';
@@ -57,8 +59,13 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.PEMINJAMAN,
-      page: () =>  PeminjamanView(),
+      page: () => PeminjamanView(),
       binding: PeminjamanBinding(),
+    ),
+    GetPage(
+      name: _Paths.KOLEKSI,
+      page: () => const KoleksiView(),
+      binding: KoleksiBinding(),
     ),
   ];
 }
