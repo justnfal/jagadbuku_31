@@ -139,7 +139,7 @@ class AddPeminjamanView extends GetView<AddPeminjamanController> {
                   Get.toNamed(Routes.HOME);
                   break;
                 case 1:
-                  Get.toNamed(Routes.DETAIL_BUKU);
+                  Get.toNamed(Routes.KOLEKSI);
                   break;
                 case 2:
                   Get.toNamed(Routes.PEMINJAMAN);

@@ -4,10 +4,14 @@ import 'package:get/get.dart';
 
 import 'package:jagadbuku_31/app/data/model/response_koleksi.dart';
 
+import '../../../routes/app_pages.dart';
 import '../controllers/koleksi_controller.dart';
 
 class KoleksiView extends GetView<KoleksiController> {
-  const KoleksiView({Key? key}) : super(key: key);
+   KoleksiView({Key? key}) : super(key: key);
+
+  final _bottomNavIndex = 0.obs;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +19,7 @@ class KoleksiView extends GetView<KoleksiController> {
       appBar: AppBar(
         backgroundColor: Color(0xFFD0E2E5),
         title: Text(
-          'Lihat Peminjaman',
+          'Lihat Koleksi',
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -48,7 +52,7 @@ class KoleksiView extends GetView<KoleksiController> {
                       ),
                       child:  ListTile(
                         title: Text("${dataBook.book?.judul}"),
-                        subtitle: Text("Penulis ${dataBook.}\nDipinjam tanggal ${dataBook.tanggalPinjam}\nDikembalikan tanggal ${dataBook.tanggalKembali}\nStatus ${dataBook.status} "),
+                        subtitle: Text("Penulis ${dataBook.book?.penulis}\nPenerbit ${dataBook.book?.penerbit}\nTahun Terbit ${dataBook.book?.tahunTerbit}"),
                       ),
                     ),
                   );
@@ -59,6 +63,56 @@ class KoleksiView extends GetView<KoleksiController> {
           ),
         ],
       ),
+        bottomNavigationBar: Obx(
+              () => Container(
+            child: BottomNavigationBar(
+              backgroundColor: Colors.blue,
+              currentIndex: _bottomNavIndex.value,
+              onTap: (value) {
+                _bottomNavIndex.value = value;
+                switch (value) {
+                  case 0:
+                    Get.toNamed(Routes.HOME);
+                    break;
+                  case 1:
+                    Get.toNamed(Routes.KOLEKSI);
+                    break;
+                  case 2:
+                    Get.toNamed(Routes.PEMINJAMAN);
+                    break;
+                  default:
+                    break;
+                }
+              },
+              selectedItemColor: Colors.black,
+              // Mengubah warna label yang terpilih menjadi putih
+              unselectedItemColor: Colors.black,
+              items: [
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                    color: Colors.black,
+                  ),
+                  label: 'Home',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.book,
+                    color: Colors.black,
+                  ),
+                  label: 'Collection',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.menu_book,
+                    color: Colors.black,
+                  ),
+                  label: 'Lihat Peminjaman',
+                ),
+              ],
+            ),
+          ),
+        ),
     );
   }
 }

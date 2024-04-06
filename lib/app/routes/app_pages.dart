@@ -64,7 +64,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.KOLEKSI,
-      page: () => const KoleksiView(),
+      page: () =>  KoleksiView(),
       binding: KoleksiBinding(),
     ),
   ];
