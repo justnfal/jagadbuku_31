@@ -130,6 +130,7 @@ class HomeView extends GetView<HomeController> {
                                   'judul': dataBuku.judul ?? '-',
                                   'penulis': dataBuku.penulis ?? '-',
                                   'penerbit': dataBuku.penerbit ?? '-',
+                                  'image': dataBuku.image ?? '-', // Kirim URL gambar sebagai argumen
                                   'tahun_terbit': dataBuku.tahunTerbit.toString() ?? '-',
                                   'deskripsi': dataBuku.deskripsi ?? '-',
                                 },

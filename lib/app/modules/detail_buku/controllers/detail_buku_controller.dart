@@ -13,6 +13,8 @@ class DetailBukuController extends GetxController with StateMixin<List<DataBuku>
 
   final count = 0.obs;
 
+  DataBuku? selectedBook;
+
 
   @override
   void onInit() {
@@ -28,6 +30,18 @@ class DetailBukuController extends GetxController with StateMixin<List<DataBuku>
   @override
   void onClose() {
     super.onClose();
+  }
+
+  void goToPinjamBuku() {
+    if (selectedBook != null) {
+      Get.toNamed(Routes.ADD_PEMINJAMAN, parameters: {
+        'id': selectedBook!.id.toString(),
+        'judul': selectedBook!.judul ?? '',
+        'image': selectedBook!.image ?? '',
+      });
+    } else {
+      Get.snackbar("Error", "Data buku tidak tersedia");
+    }
   }
 
   getData() async {
