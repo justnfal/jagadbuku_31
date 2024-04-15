@@ -19,19 +19,12 @@ class AddPeminjamanController extends GetxController with StateMixin<List<DataBu
   final TextEditingController tglkembaliController = TextEditingController();
   final userId = int.tryParse(StorageProvider.read(StorageKey.idUser) ?? '');
   final bookId = int.tryParse(Get.parameters['id'].toString() ?? '');
-  final selectedBook = DataBuku().obs;
   final loading = false.obs;
 
   @override
   void onInit() {
     super.onInit();
-    if (Get.parameters['id'] != null && Get.parameters['judul'] != null && Get.parameters['image'] != null) {
-      selectedBook.value = DataBuku(
-        id: int.parse(Get.parameters['id']!),
-        judul: Get.parameters['judul']!,
-        image: Get.parameters['image']!,
-      );
-    }
+    getData();
   }
 
   @override
@@ -43,7 +36,6 @@ class AddPeminjamanController extends GetxController with StateMixin<List<DataBu
   void onClose() {
     super.onClose();
   }
-
 
   void pinjam() async {
     loading(true);

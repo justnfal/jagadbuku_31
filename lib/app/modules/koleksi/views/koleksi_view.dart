@@ -12,6 +12,7 @@ class KoleksiView extends GetView<KoleksiController> {
 
   final _bottomNavIndex = 0.obs;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +29,7 @@ class KoleksiView extends GetView<KoleksiController> {
       ),
       body: ListView(
         children: [
+
           Expanded(
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.5,
@@ -57,62 +59,65 @@ class KoleksiView extends GetView<KoleksiController> {
                     ),
                   );
                 },
-                separatorBuilder: (context, index)=> Divider(),
+                separatorBuilder: (context, index) => SizedBox.shrink(),
               )),
             ),
           ),
         ],
       ),
-        bottomNavigationBar: Obx(
-              () => Container(
-            child: BottomNavigationBar(
-              backgroundColor: Colors.blue,
-              currentIndex: _bottomNavIndex.value,
-              onTap: (value) {
-                _bottomNavIndex.value = value;
-                switch (value) {
-                  case 0:
-                    Get.toNamed(Routes.HOME);
-                    break;
-                  case 1:
-                    Get.toNamed(Routes.KOLEKSI);
-                    break;
-                  case 2:
-                    Get.toNamed(Routes.PEMINJAMAN);
-                    break;
-                  default:
-                    break;
-                }
-              },
-              selectedItemColor: Colors.black,
-              // Mengubah warna label yang terpilih menjadi putih
-              unselectedItemColor: Colors.black,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.home,
-                    color: Colors.black,
-                  ),
-                  label: 'Home',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.book,
-                    color: Colors.black,
-                  ),
-                  label: 'Collection',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.menu_book,
-                    color: Colors.black,
-                  ),
-                  label: 'Lihat Peminjaman',
-                ),
-              ],
-            ),
-          ),
-        ),
+      bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
+
+   Widget buildBottomNavigationBar() {
+     return Obx(
+           () => Container(
+         child: BottomNavigationBar(
+           backgroundColor: Colors.blue,
+           currentIndex: _bottomNavIndex.value,
+           onTap: (value) {
+             _bottomNavIndex.value = value;
+             switch (value) {
+               case 0:
+                 Get.toNamed(Routes.HOME);
+                 break;
+               case 1:
+                 Get.toNamed(Routes.KOLEKSI);
+                 break;
+               case 2:
+                 Get.toNamed(Routes.PEMINJAMAN);
+                 break;
+               default:
+                 break;
+             }
+           },
+           selectedItemColor: Colors.black,
+           unselectedItemColor: Colors.black,
+           items: [
+             BottomNavigationBarItem(
+               icon: Icon(
+                 Icons.home,
+                 color: Colors.black,
+               ),
+               label: 'Home',
+             ),
+             BottomNavigationBarItem(
+               icon: Icon(
+                 Icons.book,
+                 color: Colors.black,
+               ),
+               label: 'Collection',
+             ),
+             BottomNavigationBarItem(
+               icon: Icon(
+                 Icons.menu_book,
+                 color: Colors.black,
+               ),
+               label: 'Lihat Peminjaman',
+             ),
+           ],
+         ),
+       ),
+     );
+   }
 }

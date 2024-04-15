@@ -3,11 +3,14 @@ import 'package:get/get.dart';
 import 'package:jagadbuku_31/app/routes/app_pages.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import '../../../data/model/response_buku.dart';
 import '../controllers/detail_buku_controller.dart';
 
 class DetailBukuView extends GetView<DetailBukuController> {
   final _bottomNavIndex = 0.obs;
+
+  // void _addToCollection(int bookId) {
+  //   controller.addToCollection(bookId);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +49,13 @@ class DetailBukuView extends GetView<DetailBukuController> {
   Widget buildContent(Map<String, dynamic> args) {
     return ListView(
       children: [
-        buildBookInfo(args), // Menggunakan parameter untuk menampilkan detail buku
+        buildBookInfo(args),
+        // Menggunakan parameter untuk menampilkan detail buku
       ],
     );
   }
 
   Widget buildBookInfo(Map<String, dynamic> args) {
-
     final id = args['id'];
     final judul = args['judul'];
     final penulis = args['penulis'];
@@ -60,152 +63,183 @@ class DetailBukuView extends GetView<DetailBukuController> {
     final image = args['image'];
     final tahunTerbit = args['tahun_terbit'];
     final deskripsi = args['deskripsi'];
-
-    return controller.obx(
-          (state) {
-        if (state == null || state.isEmpty) {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-
-        final DataBuku dataBuku = state[0];
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(3, 3),
-                    blurRadius: 5,
-                  ),
-                ],
+    final kategoriNama = args['kategoriNama'];
+    // Tampilkan detail buku menggunakan data dari parameter
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(3, 3),
+                blurRadius: 5,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: image, // Gunakan URL gambar
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
-                        ),
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: controller.obx((state) {
+              if (state == null || state.isEmpty) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: CachedNetworkImage(
+                        imageUrl: '$image', // Isi dengan URL gambar buku
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      flex: 5,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Judul: $judul',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Judul: $judul',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Penulis: $penulis',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Kategori: $kategoriNama',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Penerbit: $penerbit',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Tahun Terbit: $tahunTerbit',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: () {
+                            Get.toNamed(Routes.ADD_PEMINJAMAN, parameters: {
+                              'id': id,
+                              'judul': judul,
+                              'image': image
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xFF00DA16),
+                            foregroundColor: Colors.white,
+                            minimumSize: Size(121, 36),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
                             ),
                           ),
-                          SizedBox(height: 8),
-                          Text(
-                            'Penulis: $penulis',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Penerbit: $penerbit',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Tahun Terbit: $tahunTerbit',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () {
-                              controller.selectedBook = dataBuku; // Gunakan dataBuku sebagai data buku yang dipilih
-                              controller.goToPinjamBuku();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF00DA16),
-                              foregroundColor: Colors.white,
-                              minimumSize: Size(121, 36),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                          child: Text("Pinjam Buku"),
+                        ),
+                        SizedBox(height: 8),
+                        Form(
+                          key: controller.formKey,
+                          child: Column(
+                            children: [
+                              ElevatedButton(
+                                onPressed: () {
+                                  controller.addToCollection(args);
+                                  Get.offNamed(Routes.DETAIL_BUKU);
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFF00DA16),
+                                  foregroundColor: Colors.white,// Atur warna teks pada tombol
+                                  minimumSize: Size(121, 36), // Atur padding tombol
+                                  // textStyle: TextStyle(fontSize: 18), // Atur ukuran teks tombol
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text("Koleksi"), // Teks pada tombol
                               ),
-                            ),
-                            child: Text("Pinjam Buku"),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(3, 3),
-                    blurRadius: 5,
                   ),
                 ],
+              );
+            }),
+          ),
+        ),
+        SizedBox(height: 20),
+        Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                offset: Offset(3, 3),
+                blurRadius: 5,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Deskripsi Buku:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      '$deskripsi',
-                      style: TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
+            ],
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Deskripsi Buku:',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
+                SizedBox(height: 8),
+                Text(
+                  deskripsi,
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
+                ),
+              ],
             ),
-          ],
-        );
-      },
+          ),
+        ),
+      ],
     );
   }
-
 
   Widget buildBottomNavigationBar() {
     return Obx(

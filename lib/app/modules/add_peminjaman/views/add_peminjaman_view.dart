@@ -33,36 +33,40 @@ class AddPeminjamanView extends GetView<AddPeminjamanController> {
             Container(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Obx(() {
-                  if (controller.selectedBook.value.id == null) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 150,
-                        height: 200,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: controller.selectedBook.value.image ?? '',
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => CircularProgressIndicator(),
-                          errorWidget: (context, url, error) => Icon(Icons.error),
-                        ),
+                child: controller.obx(
+                      (state) {
+                    if (state == null || state.isEmpty) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    final DataBuku dataBuku = state[0];
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 150,
+                          height: 200,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl: '${Get.parameters['image']}',
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => Icon(Icons.error),
+                          ),
                         ),
                         SizedBox(height: 8),
-                      Text(
-                        '${controller.selectedBook.value.judul}',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                        Text(
+                          '${Get.parameters['judul']}',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
-                      ),
                         Form(
                           key: controller.formKey,
                           child: Column(
