@@ -32,7 +32,7 @@ class KoleksiView extends GetView<KoleksiController> {
 
           Expanded(
             child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 1.0,
               child: controller.obx((state) => ListView.separated(
                 itemCount: state!.length,
                 padding: EdgeInsets.symmetric(horizontal: 16.0),

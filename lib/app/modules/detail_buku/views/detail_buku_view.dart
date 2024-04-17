@@ -188,7 +188,7 @@ class DetailBukuView extends GetView<DetailBukuController> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                child: Text("Koleksi"), // Teks pada tombol
+                                child: Text("Tambahkan ke Koleksi"), // Teks pada tombol
                               ),
                             ],
                           ),
@@ -237,6 +237,7 @@ class DetailBukuView extends GetView<DetailBukuController> {
             ),
           ),
         ),
+
       ],
     );
   }
